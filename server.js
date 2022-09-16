@@ -18,6 +18,15 @@ rollbar.log("Hello world!");
 const students = ["Jimmy", "Timothy", "Jimothy"];
 
 app.get("/", (req, res) => {
+  try {
+    nonExistentFunction();
+  } catch (error) {
+    console.error(error);
+    rollbar.error("non-existant function");
+  }
+});
+
+app.get("/", (req, res) => {
   rollbar.info("homepage loaded succesfull");
   res.sendFile(path.join(__dirname, "/index.html"));
 });
@@ -35,9 +44,9 @@ app.post("/api/students", (req, res) => {
   });
 
   try {
-    rollbar.info("added student to list");
     if (index === -1 && name !== "") {
       students.push(name);
+      rollbar.info("added student to list");
       res.status(200).send(students);
     } else if (name === "") {
       res.status(400).send("You must enter a name.");
