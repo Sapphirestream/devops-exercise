@@ -18,10 +18,12 @@ rollbar.log("Hello world!");
 const students = ["Jimmy", "Timothy", "Jimothy"];
 
 app.get("/", (req, res) => {
+  rollbar.info("homepage loaded succesfull");
   res.sendFile(path.join(__dirname, "/index.html"));
 });
 
 app.get("/api/students", (req, res) => {
+  rollbar.info("all students sent successfully");
   res.status(200).send(students);
 });
 
@@ -42,6 +44,7 @@ app.post("/api/students", (req, res) => {
       res.status(400).send("That student already exists.");
     }
   } catch (err) {
+    rollbar.critical("hacker has deleted the student array???");
     console.log(err);
   }
 });
@@ -54,5 +57,7 @@ app.delete("/api/students/:index", (req, res) => {
 });
 
 const port = process.env.PORT || 5050;
+
+app.use(rollbar.errorHandler());
 
 app.listen(port, () => console.log(`Server listening on ${port}`));
