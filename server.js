@@ -17,7 +17,7 @@ rollbar.log("Hello world!");
 
 const students = ["Jimmy", "Timothy", "Jimothy"];
 
-app.get("/", (req, res) => {
+app.delete("/api/students/:index", (req, res) => {
   try {
     nonExistentFunction();
   } catch (error) {
@@ -68,8 +68,8 @@ app.delete("/api/students/:index", (req, res) => {
   res.status(200).send(students);
 });
 
-const port = process.env.PORT || 5050;
-
 app.use(rollbar.errorHandler());
+
+const port = process.env.PORT || 5050;
 
 app.listen(port, () => console.log(`Server listening on ${port}`));
