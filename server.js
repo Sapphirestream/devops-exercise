@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
   } catch (error) {
     console.error(error);
     rollbar.error("non-existant function");
+    res.status(400).send(students);
   }
 });
 
