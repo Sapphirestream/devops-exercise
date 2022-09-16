@@ -35,6 +35,7 @@ app.post("/api/students", (req, res) => {
   });
 
   try {
+    rollbar.info("added student to list");
     if (index === -1 && name !== "") {
       students.push(name);
       res.status(200).send(students);
@@ -52,6 +53,7 @@ app.post("/api/students", (req, res) => {
 app.delete("/api/students/:index", (req, res) => {
   const targetIndex = +req.params.index;
 
+  rollbar.info("deleted student from list");
   students.splice(targetIndex, 1);
   res.status(200).send(students);
 });
